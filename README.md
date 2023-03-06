@@ -39,6 +39,13 @@
 * NamedParameterJdbcTemplate => 이름 기반 파라미터 바인딩을 지원
 * 동적 쿼리를 해결하지못함
 
+### 테스트 - 데이터베이스 분리
+* 운영과 테스트를 같은 데이터베이스 사용시 위험 => 철저한 분리
+* @Transactional 어노테이션은 로직이 성공적으로 수행되면 커밋하도록 동작
+  * 테스트에서 사용하면 스프링은 테스트를 트랜잭션 안에서 실행하고, 테스트 종료시 트랜잭션을 자동으로 롤백시킴
+  * rollback 하지않으려면 @Rollback(value = false) 또는 @Commit 을 붙임
+* test는 임베디드 모드로 전환(JVM 메모리에 포함에서 실행) "jdbc:h2:mem:db;DB_CLOSE_DELAY=-1"
+* 데이터베이스 정보 없으면 스프링 부트는 임베디드 모드로 접근하는 데이터 소스를 만들어서 제공!
 
 ## Code
 * @EventListener(ApplicationReadyEvent.class) : 스프링 컨테이너가 초기화를 다 끝내고 실행 준비시 발생하는 이벤트
