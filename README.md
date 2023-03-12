@@ -47,8 +47,22 @@
 * test는 임베디드 모드로 전환(JVM 메모리에 포함에서 실행) "jdbc:h2:mem:db;DB_CLOSE_DELAY=-1"
 * 데이터베이스 정보 없으면 스프링 부트는 임베디드 모드로 접근하는 데이터 소스를 만들어서 제공!
 
+
+### MyBatis
+* SQL을 XML 에 편리하게 작성할수 있음
+* 동적 쿼리를 편리하게 작성할수 있음
+* XML 경로 수정하려면 application.properties 에 설정
+  * mybatis.mapper-locations=classpath:mapper/**/*.xml
+* 어플리케이션 로딩 시점에 MyBatis 스프링 연동 모듈은 @Mapper 가 붙어 있는 인터페이스를 조사
+  * 해당 인터페이스 발견 후 동적 프록시 기룻을 통해 ItemMapper 인터페이스의 구현체를 생성
+  * 생성된 구현체를 스프링 빈으로 등록
+  * XML 의 데이터를 찾아서 호출가능
+
+
 ## Code
 * @EventListener(ApplicationReadyEvent.class) : 스프링 컨테이너가 초기화를 다 끝내고 실행 준비시 발생하는 이벤트
 * @Import(MemoryConfig.class) : 설정 파일로 사용
 * @Profile("local") : 특정 프로필의 경우에만 해당 스프링 빈을 등록
   * application.properties 의 spring.profiles.active 속성을 읽음
+* 애노테이션으로 SQL 작성가능
+  * @Select("select id, item_name, price, quantity from item where id=#{id}")
